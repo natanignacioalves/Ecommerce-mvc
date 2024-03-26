@@ -1,0 +1,79 @@
+﻿@model Ecommerce.Models.Venda
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Cadastrar Venda</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdCliente" class="control-label">Cliente</label>
+                <select asp-for="IdCliente" class="form-control">
+                    <option value="">Selecione uma opção</option>
+                    @foreach (var item in ViewBag.Clientes)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="IdCliente" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="IdProduto" class="control-label">Produto</label>
+                <select asp-for="IdProduto" class="form-control">
+                    <option value="">Selecione uma opção</option>
+                    @foreach (var item in ViewBag.Produtos)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="IdProduto" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="QtdVenda" class="control-label"></label>
+                <input asp-for="QtdVenda" class="form-control" />
+                <span asp-validation-for="QtdVenda" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="VlrUnitarioVenda" class="control-label"></label>
+                <input asp-for="VlrUnitarioVenda" class="form-control" readOnly />
+                <span asp-validation-for="VlrUnitarioVenda" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="DthVenda" class="control-label"></label>
+                <input asp-for="DthVenda" class="form-control" />
+                <span asp-validation-for="DthVenda" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="VlrTotalVenda" class="control-label"></label>
+                <input asp-for="VlrTotalVenda" class="form-control" readOnly />
+                <span asp-validation-for="VlrTotalVenda" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Cadastrar" class="btn btn-success" /> |
+                <a asp-action="Index">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/vendas_create.js"></script>
+    <script>
+        $(function(){
+            VendasCreate.init();
+        });
+    </script>
+}

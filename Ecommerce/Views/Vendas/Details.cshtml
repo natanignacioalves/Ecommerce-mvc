@@ -1,0 +1,76 @@
+﻿@model Ecommerce.Models.Venda
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Detalhes - Venda</h1>
+
+<div>    
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Cliente:
+        </dt>
+
+        <dd class = "col-sm-10">            
+            @{
+                var cliente = ViewBag.Clientes as Dictionary<int, string>;
+                if (cliente != null && cliente.ContainsKey(Model.IdCliente))
+                {
+                    <span>@cliente[Model.IdCliente]</span>
+                }                
+            }
+        </dd>
+
+        <dt class = "col-sm-2">
+            Produto:
+        </dt>
+
+        <dd class = "col-sm-10">
+            @{
+                var produto = ViewBag.Produtos as Dictionary<int, string>;
+                if (produto != null && produto.ContainsKey(Model.IdProduto))
+                {
+                    <span>@produto[Model.IdProduto]</span>
+                }
+            }
+        </dd>
+
+        <dt class = "col-sm-2">
+            Quantidade:
+        </dt>
+
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.QtdVenda)
+        </dd>
+
+        <dt class = "col-sm-2">
+            Valor Unitário:
+        </dt>
+
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VlrUnitarioVenda)
+        </dd>
+
+        <dt class = "col-sm-2">
+            Data da Venda:
+        </dt>
+
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DthVenda)
+        </dd>
+
+        <dt class = "col-sm-2">
+            Total:
+        </dt>
+
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.VlrTotalVenda)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdVenda" class="btn btn-warning">Editar</a> |
+    <a asp-action="Index">Voltar</a>
+</div>

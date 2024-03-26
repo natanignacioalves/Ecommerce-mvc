@@ -1,0 +1,115 @@
+﻿@model IEnumerable<Ecommerce.Models.Venda>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Vendas</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary"><i class="fa fa-plus"></i> Cadastrar Venda</a>
+</p>
+<table id="myTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Produto
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QtdVenda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VlrUnitarioVenda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DthVenda)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VlrTotalVenda)
+            </th>
+            <th>&nbsp</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any()){
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @{                            
+                            var clientes = ViewBag.Clientes as Dictionary<int, string>;
+                            if (clientes != null && clientes.ContainsKey(item.IdCliente))
+                            {
+                                <span>@clientes[item.IdCliente]</span>
+                            }                    
+                        }
+                    </td>
+                    <td>
+                        @{                            
+                            var produtos = ViewBag.Produtos as Dictionary<int, string>;
+                            if (produtos != null && produtos.ContainsKey(item.IdProduto))
+                            {
+                                <span>@produtos[item.IdProduto]</span>
+                            }                    
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QtdVenda)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VlrUnitarioVenda)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DthVenda)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VlrTotalVenda)
+                    </td>
+                    <td class="text-end">
+                        <a asp-action="Edit" asp-route-id="@item.IdVenda" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> Editar</a> |
+                        <a asp-action="Details" asp-route-id="@item.IdVenda" class="btn btn-sm btn-info"><i class="fas fa-info"></i> Detalhes</a> |
+                        <a asp-action="Delete" asp-route-id="@item.IdVenda" class="btn btn-sm btn-danger"><i class="fas fa-times"></i> Excluir</a>
+                    </td>
+                </tr>
+            }
+        } else
+        {
+            <tr>
+                <td colspan="8" class="text-center"><a href="#"><strong>Nenhuma Venda Cadastrada</strong></a> </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Define o modo de erro do DataTables para 'none' para evitar alertas
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $('#myTable').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ registros por página",
+                    "zeroRecords": "Nenhum registro encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
+                    "search": "Pesquisar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+
+            // Evento para capturar erros do DataTables e evitar que sejam mostrados como alertas
+            $('#myTable').on('error.dt', function (e, settings, techNote, message) {
+                console.log('Erro do DataTables: ', message);
+            });
+        });
+    </script>
+}

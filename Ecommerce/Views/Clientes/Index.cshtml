@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Ecommerce.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Clientes</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary"><i class="fa fa-plus"></i> Cadastrar Cliente</a>
+</p>
+<table id="myTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NmCliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cidade)
+            </th>
+            <th>&nbsp</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any()){
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NmCliente)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cidade)
+                    </td>
+                    <td class="text-end">
+                        <a asp-action="Edit" asp-route-id="@item.IdCliente" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> Editar</a> |                    
+                        <a asp-action="Delete" asp-route-id="@item.IdCliente" class="btn btn-sm btn-danger"> <i class="fas fa-times"></i> Excluir</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center"><a href="#"><strong>Nenhum Cliente Cadastrado</strong></a> </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $.fn.dataTable.ext.errMode = 'none'; //evitar window.alert
+
+            $('#myTable').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ registros por página",
+                    "zeroRecords": "Nenhum registro encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
+                    "search": "Pesquisar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+
+            // Evento para capturar erros do DataTables e evitar que sejam mostrados como alertas
+            $('#myTable').on('error.dt', function (e, settings, techNote, message) {
+                console.log('Erro do DataTables: ', message);
+            });
+        });
+    </script>
+}
